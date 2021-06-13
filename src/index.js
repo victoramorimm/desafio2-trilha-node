@@ -36,7 +36,21 @@ function checksTodoExists(request, response, next) {
 }
 
 function findUserById(request, response, next) {
-  // Complete aqui
+  const { id } = request.params
+
+  if (!id) {
+    return response.status(400).json({ message: 'Requested id was not provided' })
+  }
+
+  const userFoundById = users.find((user) => user.id === id)
+
+  if (!userFoundById) {
+    return response.status(404).json({ message: 'User not found' })
+  }
+
+  request.user = userFoundById;
+
+  next()
 }
 
 app.post('/users', (request, response) => {
